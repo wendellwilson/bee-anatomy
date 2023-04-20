@@ -1,19 +1,42 @@
 resource "aws_s3_bucket" "mybucket" {
   bucket = var.bucket # If omitted, Terraform will assign a random, unique name.
-  acl    = "private"
+}
 
-  versioning {
-    enabled = false
+resource "aws_s3_bucket_ownership_controls" "bucket_ownership" {
+  bucket = aws_s3_bucket.mybucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.bucket_ownership]
+
+  bucket = aws_s3_bucket.mybucket.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_website_configuration" "bucket_website" {
+  bucket = aws_s3_bucket.mybucket.id
+
+  index_document {
+    suffix = "index.html"
   }
 
-  website {
-    index_document = "index.html"
-    error_document = "error.html"
+  error_document {
+    key = "error.html"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "bucket_versioning" {
+  bucket = aws_s3_bucket.mybucket.id
+  versioning_configuration {
+    status = "Disabled"
   }
 }
 
 #Upload files of your static website
-resource "aws_s3_bucket_object" "html" {
+resource "aws_s3_object" "html" {
   for_each = fileset(var.dist_directory, "**/*.html")
 
   bucket = aws_s3_bucket.mybucket.bucket
@@ -23,7 +46,7 @@ resource "aws_s3_bucket_object" "html" {
   content_type = "text/html"
 }
 
-resource "aws_s3_bucket_object" "svg" {
+resource "aws_s3_object" "svg" {
   for_each = fileset(var.dist_directory, "**/*.svg")
 
   bucket = aws_s3_bucket.mybucket.bucket
@@ -33,7 +56,7 @@ resource "aws_s3_bucket_object" "svg" {
   content_type = "image/svg+xml"
 }
 
-resource "aws_s3_bucket_object" "css" {
+resource "aws_s3_object" "css" {
   for_each = fileset(var.dist_directory, "**/*.css")
 
   bucket = aws_s3_bucket.mybucket.bucket
@@ -43,7 +66,7 @@ resource "aws_s3_bucket_object" "css" {
   content_type = "text/css"
 }
 
-resource "aws_s3_bucket_object" "js" {
+resource "aws_s3_object" "js" {
   for_each = fileset(var.dist_directory, "**/*.js")
 
   bucket = aws_s3_bucket.mybucket.bucket
@@ -54,7 +77,7 @@ resource "aws_s3_bucket_object" "js" {
 }
 
 
-resource "aws_s3_bucket_object" "images" {
+resource "aws_s3_object" "images" {
   for_each = fileset(var.dist_directory, "**/*.png")
 
   bucket = aws_s3_bucket.mybucket.bucket
@@ -64,7 +87,7 @@ resource "aws_s3_bucket_object" "images" {
   content_type = "image/png"
 }
 
-resource "aws_s3_bucket_object" "json" {
+resource "aws_s3_object" "json" {
   for_each = fileset(var.dist_directory, "**/*.json")
 
   bucket = aws_s3_bucket.mybucket.bucket
@@ -73,8 +96,8 @@ resource "aws_s3_bucket_object" "json" {
   etag   = filemd5("${var.dist_directory}${each.value}")
   content_type = "application/json"
 }
-# Add more aws_s3_bucket_object for the type of files you want to upload
-# The reason for having multiple aws_s3_bucket_object with file type is to make sure
+# Add more aws_s3_object for the type of files you want to upload
+# The reason for having multiple aws_s3_object with file type is to make sure
 # we add the correct content_type for the file in S3. Otherwise website load may have issues
 
 # Print the files processed so far
@@ -83,7 +106,7 @@ output "fileset-results" {
 }
 
 locals {
-  s3_origin_id = var.bucket
+  s3_origin_id = "${var.bucket}.s3-website-us-east-1.amazonaws.com"
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
@@ -193,7 +216,7 @@ output "cloudfront_domain_name" {
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.b.arn}/*"]
+    resources = ["${aws_s3_bucket.mybucket.arn}/*"]
 
     principals {
       type        = "AWS"
@@ -213,5 +236,3 @@ resource "aws_s3_bucket_public_access_block" "mybucket" {
   block_public_acls       = true
   block_public_policy     = true
 }
-
-

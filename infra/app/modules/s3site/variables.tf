@@ -3,3 +3,9 @@ variable "bucket" {
   type        = string
   default     = null
 }
+
+variable "dist_directory" {
+  description = "directory to copy to s3"
+  type        = string
+  default     = null
+}
