@@ -34,7 +34,7 @@ class BeePart {
         // clickable areas of the bee part
         this.hitAreas = [];
         for (const hitArea of hitAreas){
-            let area = new PIXI.Sprite(PIXI.Texture.WHITE);
+            let area = new PIXI.Sprite();
             area.hitArea = new PIXI.Polygon(hitArea);
             area.interactive = true;
             this.hitAreas.push(area)
