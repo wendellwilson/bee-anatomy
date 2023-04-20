@@ -26,7 +26,7 @@ class BeePart {
         this.labelMasks = [];
         for (const labelMask of labelMasks){
             let mask = new PIXI.Graphics();
-            mask.beginFill(0xffffff);
+            mask.beginFill(0x000000);
             mask.drawPolygon(labelMask);
             this.labelMasks.push(mask)
         } 
