@@ -47,13 +47,13 @@ resource "aws_s3_object" "html" {
 }
 
 resource "aws_s3_object" "svg" {
-  for_each = fileset(var.dist_directory, "**/*.svg")
+  for_each = fileset(var.dist_directory, "**/*.ico")
 
   bucket = aws_s3_bucket.mybucket.bucket
   key    = each.value
   source = "${var.dist_directory}${each.value}"
   etag   = filemd5("${var.dist_directory}${each.value}")
-  content_type = "image/svg+xml"
+  content_type = "image/x-icon"
 }
 
 resource "aws_s3_object" "css" {
@@ -78,13 +78,13 @@ resource "aws_s3_object" "js" {
 
 
 resource "aws_s3_object" "images" {
-  for_each = fileset(var.dist_directory, "**/*.png")
+  for_each = fileset(var.dist_directory, "**/*.jpg")
 
   bucket = aws_s3_bucket.mybucket.bucket
   key    = each.value
   source = "${var.dist_directory}${each.value}"
   etag   = filemd5("${var.dist_directory}${each.value}")
-  content_type = "image/png"
+  content_type = "image/jpg"
 }
 
 resource "aws_s3_object" "json" {
