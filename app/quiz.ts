@@ -15,21 +15,31 @@ class BeeAnatomy {
 
 class BeePart {
     name: string;
-    labelMask: PIXI.Graphics;
-    hitArea: PIXI.Sprite;
+    labelMasks: PIXI.Graphics[];
+    hitAreas: PIXI.Sprite[];
     asked: boolean;
 
-    constructor (name:string, labelMask: number[], hitArea: number[]) {
+    constructor (name:string, labelMasks: number[][], hitAreas: number[][]) {
         this.name = name;
         this.asked = false;
-        // Mask for the label of the bee part
-        this.labelMask = new PIXI.Graphics();
-        this.labelMask.beginFill(0xffffff);
-        this.labelMask.drawPolygon(labelMask);
+        // Masks for the label of the bee part
+        this.labelMasks = [];
+        for (const labelMask of labelMasks){
+            let mask = new PIXI.Graphics();
+            mask.beginFill(0xffffff);
+            mask.drawPolygon(labelMask);
+            this.labelMasks.push(mask)
+        } 
 
-        // clickable area of the bee part
-        this.hitArea = new PIXI.Sprite(PIXI.Texture.WHITE);
-        this.hitArea.hitArea = new PIXI.Polygon(hitArea);
+        // clickable areas of the bee part
+        this.hitAreas = [];
+        for (const hitArea of hitAreas){
+            let area = new PIXI.Sprite(PIXI.Texture.WHITE);
+            area.hitArea = new PIXI.Polygon(hitArea);
+            area.interactive = true;
+            this.hitAreas.push(area)
+        } 
+
     }
 }
 
@@ -56,13 +66,17 @@ export class Quiz {
         for (const beePartData of anatomyData.parts) {
             let beePart = new BeePart(
                 beePartData.name,
-                beePartData.nameMask,
-                beePartData.selectPolygon
+                beePartData.nameMasks,
+                beePartData.selectPolygons
             )
-            //Link action
-            beePart.hitArea.on('pointerdown', () => {
-                this.showFeedback(true);
-            });
+
+            //Link action to hitAreas
+            for (const hitArea of beePart.hitAreas) {
+                hitArea.on('pointerdown', () => {
+                    this.showFeedback(true);
+                });
+            }
+            
             this.beeParts.push(beePart)
         };
         this.numQuestions = this.beeParts.length;
@@ -91,7 +105,9 @@ export class Quiz {
             // Reset questions
             beePart.asked = false;
             // Mask all the labels
-            this.beeAnatomy.sprite.addChild(beePart.labelMask);
+            for (const labelMask of beePart.labelMasks) {
+                this.beeAnatomy.sprite.addChild(labelMask);
+            }
         }
         
         // Activate sprite
@@ -106,9 +122,10 @@ export class Quiz {
     // Ask a question
     askQuestion() {
         let beePart = this.beeParts[this.questionIndex];
-        this.beeAnatomy.sprite.addChild(beePart.hitArea);
+        for (const hitArea of beePart.hitAreas) {
+            this.beeAnatomy.sprite.addChild(hitArea);
+        }
         const prompt = `Select the ${beePart.name}`;
-        beePart.hitArea.interactive = true;
         this.setHTML(this.questionHTML, prompt);
     }
 
@@ -117,8 +134,15 @@ export class Quiz {
         const feedbackDiv = document.getElementById('feedback');
         if (!this.beeParts[this.questionIndex].asked) {
             this.beeParts[this.questionIndex].asked = true;
-            this.beeAnatomy.sprite.removeChild(this.beeParts[this.questionIndex].labelMask)
-            this.beeAnatomy.sprite.removeChild(this.beeParts[this.questionIndex].hitArea)
+            // Show labels after question is answered
+            for (const labelMask of this.beeParts[this.questionIndex].labelMasks) {
+                this.beeAnatomy.sprite.removeChild(labelMask)
+            }
+            // Remove in previous bee part hit area
+            for (const hitArea of this.beeParts[this.questionIndex].hitAreas) {
+                this.beeAnatomy.sprite.removeChild(hitArea)
+            }
+            // Show the feedback and update score
             if (correct) {
                 this.score++;
                 this.setHTML(this.feedbackHTML, 'Correct!');
@@ -129,6 +153,7 @@ export class Quiz {
                 if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.classList.add('incorrect');
             }
             if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.style.opacity = "1";
+            // Fade feedback and then show next question
             setTimeout(() => {
                 if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.style.opacity = "0";
                 if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.classList.remove('correct', 'incorrect');
