@@ -5,7 +5,7 @@ body {
 }
 #question {
     position: absolute;
-    top: 20px;
+    top: 25px;
     left: 50%;
     transform: translateX(-50%);
     padding: 10px;
@@ -13,6 +13,7 @@ body {
     border: 2px solid #000;
     border-radius: 5px;
     transition: opacity 0.5s;
+    font-size: 1.4em;
 }
 #feedback {
     position: absolute;
@@ -23,6 +24,7 @@ body {
     background-color: #fff;
     border-radius: 5px;
     transition: opacity 0.5s;
+    font-size: 1.2em;
 }
 #feedback.correct {
     background-color: #6aff6a;
