@@ -192,12 +192,19 @@ export class Quiz {
             this.setHTML(this.questionHTML, `Game over. Your score is ${this.score} out of ${this.numQuestions}.`);
         }
         if(this.questionHTML instanceof HTMLElement) this.questionHTML.style.opacity = "1";
-        // Show the "New Game" button
-        const newGameButton = document.getElementById('new-game');
+        this.addNewGameButton();
+    }
+
+    // Show the "New Game" button
+    addNewGameButton() {
+        const newGameButton = document.createElement('div');
+        newGameButton.id = "new-game";
+        newGameButton.innerHTML = "New Game";
         newGameButton.classList.add('show');
         newGameButton.addEventListener('click', () => {
             window.location.reload();
         });
+        document.body.prepend(newGameButton);  
     }
 }
 
