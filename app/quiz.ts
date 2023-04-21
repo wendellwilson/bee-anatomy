@@ -26,7 +26,7 @@ class BeePart {
         this.labelMasks = [];
         for (const labelMask of labelMasks){
             let mask = new PIXI.Graphics();
-            mask.beginFill(0x000000);
+            mask.beginFill(0xffffff);
             mask.drawPolygon(labelMask);
             this.labelMasks.push(mask)
         } 
@@ -106,6 +106,8 @@ export class Quiz {
             beePart.asked = false;
             // Mask all the labels
             for (const labelMask of beePart.labelMasks) {
+                labelMask.alpha = 1
+                labelMask.tint = "0x000000"
                 this.beeAnatomy.sprite.addChild(labelMask);
             }
         }
@@ -134,23 +136,30 @@ export class Quiz {
         const feedbackDiv = document.getElementById('feedback');
         if (!this.beeParts[this.questionIndex].asked) {
             this.beeParts[this.questionIndex].asked = true;
-            // Show labels after question is answered
-            for (const labelMask of this.beeParts[this.questionIndex].labelMasks) {
-                this.beeAnatomy.sprite.removeChild(labelMask)
-            }
+
             // Remove in previous bee part hit area
             for (const hitArea of this.beeParts[this.questionIndex].hitAreas) {
                 this.beeAnatomy.sprite.removeChild(hitArea)
             }
             // Show the feedback and update score
             if (correct) {
+                // Show labels after question is answered
+                for (const labelMask of this.beeParts[this.questionIndex].labelMasks) {
+                    this.beeAnatomy.sprite.removeChild(labelMask)
+                }
                 this.score++;
                 this.setHTML(this.feedbackHTML, 'Correct!');
                 if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.classList.add('correct');
                 this.setHTML(this.scoreHTML, String(this.score));
             } else  {
+                // Show red tinted label for incorrect answer
+                for (const labelMask of this.beeParts[this.questionIndex].labelMasks) {
+                    labelMask.alpha = .3
+                    labelMask.tint = "0xff0000"
+                }
                 this.setHTML(this.feedbackHTML, 'Incorrect!');
                 if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.classList.add('incorrect');
+
             }
             if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.style.opacity = "1";
             // Fade feedback and then show next question
@@ -165,7 +174,7 @@ export class Quiz {
                     this.showScore();
                     this.beeAnatomy.sprite.interactive = false;
                 }
-            }, 1500);
+            }, 1200);
         }
     }
 
@@ -176,8 +185,19 @@ export class Quiz {
 
     // Show the score
     showScore() {
-        this.setHTML(this.questionHTML, `Game over. Your score is ${this.score} out of ${this.numQuestions}.`);
+        if (this.score == this.numQuestions) {
+            this.setHTML(this.questionHTML, 'Congratulations! You got a perfect score!!!');
+            if(this.questionHTML instanceof HTMLElement) this.questionHTML.classList.add('correct');
+        } else {
+            this.setHTML(this.questionHTML, `Game over. Your score is ${this.score} out of ${this.numQuestions}.`);
+        }
         if(this.questionHTML instanceof HTMLElement) this.questionHTML.style.opacity = "1";
+        // Show the "New Game" button
+        const newGameButton = document.getElementById('new-game');
+        newGameButton.classList.add('show');
+        newGameButton.addEventListener('click', () => {
+            window.location.reload();
+        });
     }
 }
 
