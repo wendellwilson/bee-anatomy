@@ -7,6 +7,8 @@ const app = new PIXI.Application<HTMLCanvasElement>({
 	height: 1000,
 	backgroundColor: 0xffffff
 });
+app.renderer.plugins.interaction.autoPreventDefault=false
+
 document.body.appendChild(app.view);
 
 const fullAnatomyData = await loadAnatomyData()
