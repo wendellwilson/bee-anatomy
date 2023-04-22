@@ -59,7 +59,7 @@ export class Quiz {
         this.app = app;
         this.beeAnatomy = new BeeAnatomy(anatomyData.name, anatomyData.image)
         //Link action
-        this.beeAnatomy.sprite.on('click', () => {
+        this.beeAnatomy.sprite.on('pointertap', () => {
             this.showFeedback(false);
         });
         this.beeParts = [];
@@ -72,7 +72,7 @@ export class Quiz {
 
             //Link action to hitAreas
             for (const hitArea of beePart.hitAreas) {
-                hitArea.on('click', () => {
+                hitArea.on('pointertap', () => {
                     this.showFeedback(true);
                 });
             }
