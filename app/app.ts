@@ -1,4 +1,6 @@
 import { Quiz } from "./quiz"
+import { toggleBodyElement } from "./utils"
+
 import * as PIXI from 'pixi.js';
 
 // Create a PixiJS application
@@ -7,14 +9,42 @@ const app = new PIXI.Application<HTMLCanvasElement>({
 	height: 1000,
 	backgroundColor: 0xffffff
 });
-app.renderer.plugins.interaction.autoPreventDefault=false
+// Should allow for zoom and pan
+app.renderer.events.autoPreventDefault=false
 
-document.body.appendChild(app.view);
+document.body.append(app.view);
 
-const fullAnatomyData = await loadAnatomyData()
-fullAnatomyData.anatomyDiagrams[0].image = await PIXI.Assets.load(fullAnatomyData.anatomyDiagrams[0].image)
-const quiz = new Quiz(app, fullAnatomyData.anatomyDiagrams[0])
-quiz.start()
+const fullAnatomyData : any = await loadAnatomyData()
+const anatomyChoices : any[] = fullAnatomyData.anatomyDiagrams;
+
+// Return to menu button
+const returnButtonHTML : HTMLElement = document.createElement('div');
+returnButtonHTML.id = "return";
+returnButtonHTML.innerHTML = "Return to Menu";
+
+// Build gameMenu html
+const menuHTML : HTMLElement = document.createElement('div');
+menuHTML.id = "menu";
+const menuTitleHTML : HTMLElement = document.createElement('div');
+menuTitleHTML.id = "menu-title";
+menuTitleHTML.innerHTML = "Select a Bee Anatomy Quiz";
+menuHTML.append(menuTitleHTML);
+for (const anatomyDiagram of anatomyChoices) {
+	const button : HTMLElement = document.createElement('button');
+	button.innerHTML = anatomyDiagram.name;
+	button.addEventListener('click', () => {
+		toggleBodyElement(menuHTML);
+		startQuiz(anatomyDiagram, returnButtonHTML);
+	});
+	menuHTML.append(button);
+}
+
+returnButtonHTML.addEventListener('click', () => {
+	toggleBodyElement(menuHTML);
+	toggleBodyElement(returnButtonHTML);
+});
+
+toggleBodyElement(menuHTML);
 
 async function loadAnatomyData() {
 	try {
@@ -24,4 +54,15 @@ async function loadAnatomyData() {
 	} catch (error) {
 		console.error(error);
 	}
+}
+
+// Load image and start quiz
+async function startQuiz(anatomyDiagram : any, returnButtonHTML : HTMLElement) {
+	if(!(anatomyDiagram.image instanceof PIXI.Texture)) anatomyDiagram.image = await PIXI.Assets.load(anatomyDiagram.image);
+	const quiz = new Quiz(app, anatomyDiagram);
+	returnButtonHTML.addEventListener('click', () => {
+		quiz.cleanUp();
+	});
+	toggleBodyElement(returnButtonHTML);
+	quiz.start();
 }

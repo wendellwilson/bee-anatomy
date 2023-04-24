@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { shuffleArray } from './utils';
 
 class BeeAnatomy {
     name: string;
@@ -28,6 +29,7 @@ class BeePart {
             let mask = new PIXI.Graphics();
             mask.beginFill(0xffffff);
             mask.drawPolygon(labelMask);
+            mask.tint = "0x000000";
             this.labelMasks.push(mask)
         } 
 
@@ -50,10 +52,12 @@ export class Quiz {
     score: number;
     numQuestions: number;
     questionIndex: number;
-    numQuestionsHTML: HTMLElement | string;
-    scoreHTML: HTMLElement | string;
-    questionHTML: HTMLElement | string;
-    feedbackHTML: HTMLElement | string;
+    scoreHTML: HTMLElement;
+    scoreValueHTML: HTMLElement;
+    questionHTML: HTMLElement;
+    feedbackHTML: HTMLElement;
+    newGameButtonHTML: HTMLElement;
+    copyWriteHTML: HTMLElement;
 
     constructor(app: PIXI.Application, anatomyData: any) {
         this.app = app;
@@ -80,22 +84,54 @@ export class Quiz {
             this.beeParts.push(beePart)
         };
         this.numQuestions = this.beeParts.length;
+
+        //Build HTML elements
+        //<div id="score">Score: <span id="score-value">0/27</span></div>
+        this.scoreHTML = document.createElement('div');
+        this.scoreHTML.id = "score";
+        this.scoreHTML.innerHTML = "Score: ";
+        this.scoreValueHTML = document.createElement('span');
+        this.scoreValueHTML.id = "score-value";
+        this.scoreHTML.append(this.scoreValueHTML);
+        this.setScore();
+
+        //<div id="question"></div>
+        this.questionHTML = document.createElement('div');
+        this.questionHTML.id = "question";
+        
+        //<div id="feedback"></div>
+        this.feedbackHTML = document.createElement('div');
+        this.feedbackHTML.id = "feedback";
+
+        this.newGameButtonHTML = document.createElement('div');
+        this.newGameButtonHTML.id = "new-game";
+        this.newGameButtonHTML.innerHTML = "New Game";
+        this.newGameButtonHTML.addEventListener('click', () => {
+            this.start();
+        });
+
+        this.copyWriteHTML = document.createElement('div');
+        this.copyWriteHTML.id = "image-copywrite";
+        this.copyWriteHTML.innerHTML = anatomyData.copywriteLink;
     }
 
-    async start() {
-        // Randomize question order
-        shuffleArray(this.beeParts);
-    
+    start() {
+        // Remove new game if it exists
+        this.removeNewGameButton();
+
         // Set up the quiz
         this.questionIndex = 0;
         this.score = 0;
-        
-        this.numQuestionsHTML = document.getElementById('num-questions') || "";
-        this.scoreHTML = document.getElementById('score-value') || "";
-        this.questionHTML = document.getElementById('question') || "";
-        this.feedbackHTML = document.getElementById('feedback') || "";
+        this.setScore();
 
-        this.setHTML(this.numQuestionsHTML, String(this.numQuestions));
+        // Add HTML elements if needed
+        if (!(this.scoreHTML.parentElement === document.body)) document.body.append(this.scoreHTML);
+        if (!(this.questionHTML.parentElement === document.body)) document.body.append(this.questionHTML);
+        if (!(this.feedbackHTML.parentElement === document.body)) document.body.append(this.feedbackHTML);
+        if (!(this.copyWriteHTML.parentElement === document.body)) document.body.append(this.copyWriteHTML);
+    
+        // Randomize question order
+        shuffleArray(this.beeParts);
         
         // Move the sprite to the center of the screen
         this.beeAnatomy.sprite.x = this.app.screen.width / 2;
@@ -106,8 +142,7 @@ export class Quiz {
             beePart.asked = false;
             // Mask all the labels
             for (const labelMask of beePart.labelMasks) {
-                labelMask.alpha = 1
-                labelMask.tint = "0x000000"
+                labelMask.alpha = 1;
                 this.beeAnatomy.sprite.addChild(labelMask);
             }
         }
@@ -117,8 +152,22 @@ export class Quiz {
         
         // Ask the first question
         this.askQuestion();
+
         // Register invalid clicks
         this.beeAnatomy.sprite.interactive = true;
+    }
+
+    cleanUp() {
+        // Remove HTML
+        document.body.removeChild(this.feedbackHTML);
+        document.body.removeChild(this.questionHTML);
+        document.body.removeChild(this.scoreHTML);
+        this.removeNewGameButton();
+        document.body.removeChild(this.copyWriteHTML);
+
+        // Remove sprite
+        this.app.stage.removeChild(this.beeAnatomy.sprite);
+        this.app.renderer.reset();
     }
 
     // Ask a question
@@ -127,9 +176,10 @@ export class Quiz {
         for (const hitArea of beePart.hitAreas) {
             this.beeAnatomy.sprite.addChild(hitArea);
         }
-        const prompt = `Select the ${beePart.name}`;
-        this.setHTML(this.questionHTML, prompt);
+        this.setQuestion(`Select the ${beePart.name}`);
     }
+
+
 
     // Show the feedback
     showFeedback(correct : boolean) {
@@ -139,33 +189,28 @@ export class Quiz {
 
             // Remove in previous bee part hit area
             for (const hitArea of this.beeParts[this.questionIndex].hitAreas) {
-                this.beeAnatomy.sprite.removeChild(hitArea)
+                this.beeAnatomy.sprite.removeChild(hitArea);
             }
             // Show the feedback and update score
             if (correct) {
                 // Show labels after question is answered
                 for (const labelMask of this.beeParts[this.questionIndex].labelMasks) {
-                    this.beeAnatomy.sprite.removeChild(labelMask)
+                    this.beeAnatomy.sprite.removeChild(labelMask);
                 }
                 this.score++;
-                this.setHTML(this.feedbackHTML, 'Correct!');
-                if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.classList.add('correct');
-                this.setHTML(this.scoreHTML, String(this.score));
+                this.setScore();
             } else  {
                 // Show red tinted label for incorrect answer
                 for (const labelMask of this.beeParts[this.questionIndex].labelMasks) {
-                    labelMask.alpha = .3
-                    labelMask.tint = "0xff0000"
+                    labelMask.alpha = .3;
+                    labelMask.tint = "0xff0000";
                 }
-                this.setHTML(this.feedbackHTML, 'Incorrect!');
-                if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.classList.add('incorrect');
-
             }
-            if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.style.opacity = "1";
+            this.setFeedback(correct);
+
             // Fade feedback and then show next question
             setTimeout(() => {
-                if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.style.opacity = "0";
-                if(this.feedbackHTML instanceof HTMLElement) this.feedbackHTML.classList.remove('correct', 'incorrect');
+                this.fadeFeedback()
                 // Ask the next question when the feedback is done
                 this.questionIndex++;
                 if (this.questionIndex < this.numQuestions) {
@@ -178,44 +223,49 @@ export class Quiz {
         }
     }
 
-    setHTML(element: string | HTMLElement, value: string) {
-        if(element instanceof String) element = value
-        if(element instanceof HTMLElement) element.innerHTML = value;
+    setScore() {
+        this.scoreValueHTML.innerHTML = `${this.score}/${this.numQuestions}`;
+    }
+
+    setQuestion(prompt: string) {
+        this.questionHTML.innerHTML = prompt;
+    }
+
+    setFeedback(correct: boolean) {
+        if (correct) {
+            this.feedbackHTML.innerHTML = 'Correct!';
+            this.feedbackHTML.classList.add('correct');
+        } else {
+            this.feedbackHTML.innerHTML = 'Incorrect!';
+            this.feedbackHTML.classList.add('incorrect');
+        }
+        this.feedbackHTML.style.opacity = "1";
+    }
+
+    fadeFeedback(){
+        this.feedbackHTML.style.opacity = "0";
+        this.feedbackHTML.classList.remove('correct', 'incorrect');
     }
 
     // Show the score
     showScore() {
         if (this.score == this.numQuestions) {
-            this.setHTML(this.questionHTML, 'Congratulations! You got a perfect score!!!');
-            if(this.questionHTML instanceof HTMLElement) this.questionHTML.classList.add('correct');
+            this.setQuestion('Congratulations! You got a perfect score!!!');
         } else {
-            this.setHTML(this.questionHTML, `Game over. Your score is ${this.score} out of ${this.numQuestions}.`);
+            this.setQuestion(`Game over. Your score is ${this.score} out of ${this.numQuestions}.`);
         }
-        if(this.questionHTML instanceof HTMLElement) this.questionHTML.style.opacity = "1";
         this.addNewGameButton();
     }
 
     // Show the "New Game" button
     addNewGameButton() {
-        const newGameButton = document.createElement('div');
-        newGameButton.id = "new-game";
-        newGameButton.innerHTML = "New Game";
-        newGameButton.classList.add('show');
-        newGameButton.addEventListener('click', () => {
-            window.location.reload();
-        });
-        document.body.prepend(newGameButton);  
+        if (!(this.newGameButtonHTML.parentElement === document.body)) {
+            document.body.prepend(this.newGameButtonHTML)
+        }
     }
-}
-
-
-/* Randomize array in-place using Durstenfeld shuffle algorithm */
-//https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffleArray(array: any[]) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+    removeNewGameButton() {
+        if (this.newGameButtonHTML.parentElement === document.body) {
+            document.body.removeChild(this.newGameButtonHTML);
+        }
     }
 }
