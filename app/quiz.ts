@@ -195,6 +195,7 @@ export class Quiz {
             if (correct) {
                 // Show labels after question is answered
                 for (const labelMask of this.beeParts[this.questionIndex].labelMasks) {
+                    labelMask.tint = "0x000000";
                     this.beeAnatomy.sprite.removeChild(labelMask);
                 }
                 this.score++;
