@@ -219,7 +219,7 @@ export class Quiz {
                     this.showScore();
                     this.beeAnatomy.sprite.interactive = false;
                 }
-            }, 1200);
+            }, 1100);
         }
     }
 
