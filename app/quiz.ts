@@ -6,11 +6,11 @@ class BeeAnatomy {
     image: PIXI.Texture;
     sprite: PIXI.Sprite;
 
-    constructor(name: string, image: PIXI.Texture) {
+    constructor(name: string, image: PIXI.Texture, anchor: number = 0.5) {
         this.name = name;
         this.image = image;
         this.sprite = new PIXI.Sprite(this.image);
-        this.sprite.anchor.set(0.5);
+        this.sprite.anchor.set(anchor);
     }
 }
 
@@ -48,6 +48,7 @@ class BeePart {
 export class Quiz {
     app: PIXI.Application;
     beeAnatomy: BeeAnatomy;
+    anchor: number;
     beeParts: BeePart[];
     score: number;
     numQuestions: number;
@@ -61,7 +62,8 @@ export class Quiz {
 
     constructor(app: PIXI.Application, anatomyData: any) {
         this.app = app;
-        this.beeAnatomy = new BeeAnatomy(anatomyData.name, anatomyData.image)
+        this.anchor = anatomyData.anchor;
+        this.beeAnatomy = new BeeAnatomy(anatomyData.name, anatomyData.image, anatomyData.anchor);
         //Link action
         this.beeAnatomy.sprite.on('pointertap', () => {
             this.showFeedback(false);
@@ -81,7 +83,7 @@ export class Quiz {
                 });
             }
             
-            this.beeParts.push(beePart)
+            this.beeParts.push(beePart);
         };
         this.numQuestions = this.beeParts.length;
 
@@ -124,6 +126,10 @@ export class Quiz {
         this.score = 0;
         this.setScore();
 
+        // Move the sprite to the center of the screen
+        this.beeAnatomy.sprite.x = this.app.screen.width * this.anchor;
+        this.beeAnatomy.sprite.y = this.app.screen.height * this.anchor || this.app.screen.height * 0.15;
+        
         // Add HTML elements if needed
         if (!(this.scoreHTML.parentElement === document.body)) document.body.append(this.scoreHTML);
         if (!(this.questionHTML.parentElement === document.body)) document.body.append(this.questionHTML);
@@ -132,10 +138,6 @@ export class Quiz {
     
         // Randomize question order
         shuffleArray(this.beeParts);
-        
-        // Move the sprite to the center of the screen
-        this.beeAnatomy.sprite.x = this.app.screen.width / 2;
-        this.beeAnatomy.sprite.y = this.app.screen.height / 2;
     
         for (const beePart of this.beeParts) {
             // Reset questions

@@ -1,8 +1,227 @@
 {
     "anatomyDiagrams": [
         {
+            "name": "Wing",
+            "image": "assets/anatomy_images/Wings_I_SD4468.jpg",
+            "anchor": 0,
+            "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
+            "parts": [
+                {
+                    "name": "1st Recurrent Vein",
+                    "nameMasks": [
+                        [   82, 229  ,  83, 206  ,  195, 212  ,  187, 252  ]
+                    ],
+                    "selectPolygons": [
+                        [   452, 212  ,  481, 260  ,  465, 271  ,  431, 223  ]
+                    ]
+                },
+                {
+                    "name": "1st Submarginal Cell",
+                    "nameMasks": [
+                        [   586, 115  ,  588, 96  ,  747, 96  ,  749, 117  ]
+                    ],
+                    "selectPolygons": [
+                        [   531, 236  ,  465, 206  ,  468, 177  ,  498, 172  ,  559, 195  ,  573, 237  ]
+                    ]
+                },
+                {
+                    "name": "1st Transcubital Vein",
+                    "nameMasks": [
+                        [   53, 81  ,  212, 84  ,  214, 101  ,  50, 103  ]
+                    ],
+                    "selectPolygons": [
+                        [   474, 210  ,  462, 211  ,  465, 178  ,  478, 178  ]
+                    ]
+                },
+                {
+                    "name": "2nd Recurrent Vein",
+                    "nameMasks": [
+                        [   104, 280  ,  101, 256  ,  212, 259  ,  213, 304  ]
+                    ],
+                    "selectPolygons": [
+                        [   351, 269  ,  333, 268  ,  341, 200  ,  361, 204  ]
+                    ]
+                },
+                {
+                    "name": "2nd Submarginal Cell",
+                    "nameMasks": [
+                        [   477, 50  ,  314, 48  ,  316, 29  ,  480, 29  ]
+                    ],
+                    "selectPolygons": [
+                        [   471, 210  ,  448, 216  ,  424, 207  ,  437, 178  ,  474, 178  ]
+                    ]
+                },
+                {
+                    "name": "2nd Transcubital Vein",
+                    "nameMasks": [
+                        [   53, 113  ,  217, 116  ,  214, 133  ,  55, 135  ]
+                    ],
+                    "selectPolygons": [
+                        [   432, 210  ,  417, 207  ,  430, 178  ,  448, 180  ]
+                    ]
+                },
+                {
+                    "name": "3rd Submarginal Cell",
+                    "nameMasks": [
+                        [   171, 71  ,  169, 54  ,  335, 52  ,  333, 72  ]
+                    ],
+                    "selectPolygons": [
+                        [   429, 207  ,  350, 206  ,  344.5454406738281, 188.3636474609375  ,  360, 174  ,  407, 159  ,  445, 180  ]
+                    ]
+                },
+                {
+                    "name": "3rd Transcubital Vein",
+                    "nameMasks": [
+                        [   53, 143  ,  211, 147  ,  211, 166  ,  52, 166  ]
+                    ],
+                    "selectPolygons": [
+                        [   405, 160  ,  413, 167  ,  355, 197  ,  332, 184  ]
+                    ]
+                },
+                {
+                    "name": "Basal Vein",
+                    "nameMasks": [
+                        [   608, 184  ,  690, 186  ,  690, 204  ,  606, 203  ]
+                    ],
+                    "selectPolygons": [
+                        [   560, 203  ,  623, 288  ,  609, 291  ,  543, 202  ]
+                    ]
+                },
+                {
+                    "name": "Costa",
+                    "nameMasks": [
+                        [   865, 224  ,  867, 243  ,  809, 244  ,  802, 221  ]
+                    ],
+                    "selectPolygons": [
+                        [   863, 299  ,  571, 196  ,  572, 185  ,  876, 287  ]
+                    ]
+                },
+                {
+                    "name": "Costal Notch",
+                    "nameMasks": [
+                        [   619, 67  ,  623, 86  ,  511, 86  ,  507, 67  ]
+                    ],
+                    "selectPolygons": [
+                        [   525, 188  ,  528, 167  ,  541, 172  ,  541, 194  ]
+                    ]
+                },
+                {
+                    "name": "Hamuli",
+                    "nameMasks": [
+                        [   319, 455  ,  257, 453  ,  258, 427  ,  320, 428  ]
+                    ],
+                    "selectPolygons": [
+                        [   502, 356  ,  578, 372  ,  564, 388  ,  502, 377  ]
+                    ]
+                },
+                {
+                    "name": "Jugal Lobe",
+                    "nameMasks": [
+                        [   740, 514  ,  833, 515  ,  834, 534  ,  733, 536  ]
+                    ],
+                    "selectPolygons": [
+                        [   851, 468  ,  744, 510  ,  744, 474  ,  860, 426  ]
+                    ]
+                },
+                {
+                    "name": "M Vein",
+                    "nameMasks": [
+                        [   345, 472  ,  407, 473  ,  405, 495  ,  346, 495  ]
+                    ],
+                    "selectPolygons": [
+                        [   603, 406  ,  667, 424  ,  653, 436  ,  518, 420  ]
+                    ]
+                },
+                {
+                    "name": "M+cu Vein",
+                    "nameMasks": [
+                        [   502, 532  ,  584, 534  ,  586, 554  ,  495, 555  ]
+                    ],
+                    "selectPolygons": [
+                        [   772, 411  ,  773, 426  ,  660, 440  ,  656, 423  ]
+                    ]
+                },
+                {
+                    "name": "Marginal Cell",
+                    "nameMasks": [
+                        [   312, 95  ,  310, 78  ,  418, 75  ,  421, 95  ]
+                    ],
+                    "selectPolygons": [
+                        [   444, 186  ,  322, 127  ,  343, 113  ,  458, 141  ,  496, 180  ]
+                    ]
+                },
+                {
+                    "name": "Prestigma",
+                    "nameMasks": [
+                        [   629, 130  ,  633, 146  ,  546, 147  ,  547, 128  ]
+                    ],
+                    "selectPolygons": [
+                        [   557, 203  ,  536, 194  ,  537, 172  ,  575, 188  ]
+                    ]
+                },
+                {
+                    "name": "Radius",
+                    "nameMasks": [
+                        [   789, 211  ,  791, 230  ,  733, 231  ,  734, 210  ]
+                    ],
+                    "selectPolygons": [
+                        [   859, 312  ,  572, 207  ,  573, 196  ,  869, 300  ]
+                    ]
+                },
+                {
+                    "name": "Stigma",
+                    "nameMasks": [
+                        [   534, 119  ,  460, 120  ,  473, 100  ,  543, 99  ]
+                    ],
+                    "selectPolygons": [
+                        [   485, 177  ,  441, 132  ,  535, 168  ,  525, 189  ]
+                    ]
+                },
+                {
+                    "name": "Transverse Median Vein",
+                    "nameMasks": [
+                        [   903, 157  ,  906, 175  ,  718, 175  ,  720, 156  ]
+                    ],
+                    "selectPolygons": [
+                        [   615, 325  ,  604, 324  ,  604, 286  ,  631, 288  ]
+                    ]
+                },
+                {
+                    "name": "Vannal Lobe",
+                    "nameMasks": [
+                        [   717, 546  ,  718, 565  ,  617, 567  ,  615, 545  ]
+                    ],
+                    "selectPolygons": [
+                        [   656, 451  ,  849, 424  ,  663, 546  ,  584, 527  ]
+                    ]
+                },
+                {
+                    "name": "cu-v Vein",
+                    "nameMasks": [
+                        [   468, 511  ,  470, 529  ,  391, 530  ,  390, 507  ]
+                    ],
+                    "selectPolygons": [
+                        [   668, 447  ,  660, 463  ,  645, 433  ,  661, 429  ],
+                        [   660, 463  ,  668, 447  ,  739, 441  ]
+                    ]
+                },
+                {
+                    "name": "Discoidal Cells",
+                    "nameMasks": [
+                        [   280, 332  ,  280, 370  ,  215, 377  ,  205, 330  ]
+                    ],
+                    "selectPolygons": [
+                        [   453.6363525390625, 314.7272644042969  ,  611, 318  ,  470, 343.81817626953125  ],
+                        [   621, 291  ,  534, 232  ,  572, 230  ],
+                        [   349, 198  ,  488, 207  ,  534, 232  ,  621, 291  ,  611, 318  ,  453.6363525390625, 314.7272644042969  ,  336, 263  ]
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Face",
             "image": "assets/anatomy_images/Face_I_SD4469.jpg",
+            "anchor": 0.5,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
             "parts": [
                 {
@@ -640,6 +859,7 @@
         {
             "name": "Dorsal View",
             "image": "assets/anatomy_images/I_Dorsal_view_SD4465.jpg",
+            "anchor": 0.5,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
             "parts": [
                 {
