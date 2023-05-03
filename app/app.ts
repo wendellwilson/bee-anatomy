@@ -23,28 +23,42 @@ returnButtonHTML.id = "return";
 returnButtonHTML.innerHTML = "Return to Menu";
 
 // Build gameMenu html
+const menuContainerHTML : HTMLElement = document.createElement('div');
+menuContainerHTML.id = "menu-container";
 const menuHTML : HTMLElement = document.createElement('div');
 menuHTML.id = "menu";
 const menuTitleHTML : HTMLElement = document.createElement('div');
 menuTitleHTML.id = "menu-title";
-menuTitleHTML.innerHTML = "Select a Bee Anatomy Quiz";
+menuTitleHTML.innerHTML = "Choose a Bee Anatomy Quiz";
 menuHTML.append(menuTitleHTML);
 for (const anatomyDiagram of anatomyChoices) {
 	const button : HTMLElement = document.createElement('button');
 	button.innerHTML = anatomyDiagram.name;
 	button.addEventListener('click', () => {
-		toggleBodyElement(menuHTML);
+		toggleBodyElement(menuContainerHTML);
 		startQuiz(anatomyDiagram, returnButtonHTML);
 	});
 	menuHTML.append(button);
 }
 
+const instructionsHTML : HTMLElement = document.createElement('div');
+instructionsHTML.id = "instructions";
+instructionsHTML.innerHTML = "When asked to select the named bee part in the quiz click on the corresponding part of the image. Clicking on the label will not be counted as a correct answer.";
+
+const instructionsTitleHTML : HTMLElement = document.createElement('div');
+instructionsTitleHTML.id = "instructions-title";
+instructionsTitleHTML.innerHTML = "Quiz Instructions";
+instructionsHTML.prepend(instructionsTitleHTML);
+
+menuContainerHTML.append(menuHTML);
+menuContainerHTML.append(instructionsHTML);
+
 returnButtonHTML.addEventListener('click', () => {
-	toggleBodyElement(menuHTML);
+	toggleBodyElement(menuContainerHTML);
 	toggleBodyElement(returnButtonHTML);
 });
 
-toggleBodyElement(menuHTML);
+toggleBodyElement(menuContainerHTML);
 
 async function loadAnatomyData() {
 	try {
