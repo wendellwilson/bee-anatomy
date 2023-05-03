@@ -68,7 +68,7 @@ canvas {
 }
 #menu-container {
     position: absolute;
-    top: 30%;
+    top: max(500px, 30%);
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
