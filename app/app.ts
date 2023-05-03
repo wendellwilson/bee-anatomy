@@ -29,16 +29,23 @@ const menuHTML : HTMLElement = document.createElement('div');
 menuHTML.id = "menu";
 const menuTitleHTML : HTMLElement = document.createElement('div');
 menuTitleHTML.id = "menu-title";
-menuTitleHTML.innerHTML = "Choose a Bee Anatomy Quiz";
+menuTitleHTML.innerHTML = "Bee Anatomy Quizzes";
 menuHTML.append(menuTitleHTML);
 for (const anatomyDiagram of anatomyChoices) {
+	const buttonContainer : HTMLElement = document.createElement('div');
+	buttonContainer.id = "button-container";
+	const buttonImage : HTMLElement = document.createElement('div');
+	buttonImage.id = "button-image";
+	buttonImage.style.backgroundImage = `url(${anatomyDiagram.image})`;
 	const button : HTMLElement = document.createElement('button');
 	button.innerHTML = anatomyDiagram.name;
 	button.addEventListener('click', () => {
 		toggleBodyElement(menuContainerHTML);
 		startQuiz(anatomyDiagram, returnButtonHTML);
 	});
-	menuHTML.append(button);
+	buttonContainer.append(button);
+	buttonContainer.append(buttonImage);
+	menuHTML.append(buttonContainer);
 }
 
 const instructionsHTML : HTMLElement = document.createElement('div');
