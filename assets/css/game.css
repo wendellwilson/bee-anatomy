@@ -126,6 +126,7 @@ canvas {
 }
 #instructions-title {
     font-weight: bold;
+    margin-bottom: 10px;
 }
 #return {
     position: absolute;
