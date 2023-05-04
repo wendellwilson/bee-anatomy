@@ -6,11 +6,20 @@ class BeeAnatomy {
     image: PIXI.Texture;
     sprite: PIXI.Sprite;
 
-    constructor(name: string, image: PIXI.Texture, anchor: number = 0.5) {
+    constructor(name: string, image: PIXI.Texture, anchor: number = 0.5, hitArea: number[] = null) {
         this.name = name;
         this.image = image;
         this.sprite = new PIXI.Sprite(this.image);
         this.sprite.anchor.set(anchor);
+        if(hitArea ) {
+            this.sprite.hitArea = new PIXI.Polygon(hitArea);
+            // Use this to check clickableArea of new anatomies
+            // let mask = new PIXI.Graphics();
+            // mask.beginFill(0xffffff);
+            // mask.drawPolygon(hitArea);
+            // mask.tint = "0x000000";
+            // this.sprite.addChild(mask);
+        }
     }
 }
 
@@ -26,7 +35,7 @@ class BeePart {
         // Masks for the label of the bee part
         this.labelMasks = [];
         for (const labelMask of labelMasks){
-            let mask = new PIXI.Graphics();
+            let mask = new PIXI.Graphics();    
             mask.beginFill(0xffffff);
             mask.drawPolygon(labelMask);
             mask.tint = "0x000000";
@@ -63,11 +72,18 @@ export class Quiz {
     constructor(app: PIXI.Application, anatomyData: any) {
         this.app = app;
         this.anchor = anatomyData.anchor;
-        this.beeAnatomy = new BeeAnatomy(anatomyData.name, anatomyData.image, anatomyData.anchor);
+        this.beeAnatomy = new BeeAnatomy(
+            anatomyData.name,
+            anatomyData.image,
+            anatomyData.anchor,
+            anatomyData.clickableArea
+        );
+
         //Link action
         this.beeAnatomy.sprite.on('pointertap', () => {
             this.showFeedback(false);
         });
+
         this.beeParts = [];
         for (const beePartData of anatomyData.parts) {
             let beePart = new BeePart(

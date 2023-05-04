@@ -5,6 +5,33 @@
             "image": "assets/anatomy_images/I_Dorsal_view_SD4465.jpg",
             "anchor": 0.5,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
+            "clickableArea": [
+                61, -331,
+                -54, -316,
+                -123, -227,
+                -104, -138,
+                -172, -132,
+                -353, -215,
+                -427, -190,
+                -352, -45,
+                -294, 0,
+                -183, 37,
+                -208, 250,
+                -33, 297,
+                34.2727, 362.3636,
+                49, 301,
+                224, 234,
+                194, 35,
+                310, 10,
+                427.9091, -115.8182,
+                465, -198,
+                357, -218,
+                245.1818, -168.5455,
+                206, -132,
+                176, -128,
+                130, -134,
+                136, -238
+            ],
             "parts": [
                 {
                     "name": "Scutellum",
@@ -706,6 +733,25 @@
             "image": "assets/anatomy_images/Ventral_view_I_SD4467.jpg",
             "anchor": 0,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
+            "clickableArea":[
+                220.90908813476562, 172,
+                77, 144,
+                5, 165,
+                166, 391,
+                281, 399,
+                298, 687,
+                710, 686,
+                706, 404,
+                803, 395,
+                979, 181,
+                946, 127,
+                763, 160,
+                626, 223,
+                601, 75,
+                492, 23,
+                395, 73,
+                370, 232
+            ],
             "parts": [
                 {
                     "name": "Antenna",
@@ -955,11 +1001,26 @@
             "image": "assets/anatomy_images/Lateral_view_I_SD4466.jpg",
             "anchor": 0,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
+            "clickableArea":[
+                319, 92,
+                547, 186,
+                878, 169,
+                955, 341,
+                780, 374,
+                578, 302,
+                515, 326,
+                370, 302,
+                350, 328,
+                286, 314,
+                94, 363,
+                99, 269,
+                160, 201
+            ],
             "parts": [
                 {
                     "name": "Antenna",
                     "nameMasks": [
-                        [   152, 99  ,  161, 122  ,  76, 124  ,  70, 99  ]
+                        [   152, 99,  161, 122  ,  76, 124  ,  70, 99  ]
                     ],
                     "selectPolygons": [
                         [   193, 159  ,  320, 107  ,  347, 140  ,  178, 218  ]
@@ -1218,6 +1279,18 @@
             "image": "assets/anatomy_images/Wings_I_SD4468.jpg",
             "anchor": 0,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
+            "clickableArea":[
+                612, 202,
+                406, 113,
+                213, 109,
+                210, 149,
+                252, 295,
+                318, 416,
+                499, 529,
+                682, 536,
+                848, 463,
+                879, 287
+            ],
             "parts": [
                 {
                     "name": "1st Recurrent Vein",
@@ -1436,6 +1509,21 @@
             "image": "assets/anatomy_images/Face_I_SD4469.jpg",
             "anchor": 0.5,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
+            "clickableArea":[
+                52, 296.5,
+                -46, 291.5,
+                -202, -59.5,
+                -180, -170.5,
+                -346, -144.5,
+                -319, -221.5,
+                -138, -218.5,
+                17, -239.5,
+                206, -220.5,
+                362, -219.5,
+                367, -139.5,
+                222, -160.5,
+                244, -18.5
+            ],
             "parts": [
                 {
                     "name": "Clypeus",
@@ -2074,6 +2162,15 @@
             "image": "assets/anatomy_images/Leg_I_SD4470.jpg",
             "anchor": 0,
             "copywriteLink": "<a href='http://www.discoverlife.org/ap/copyright.html'>© Rebekah Andrus Nelson</a>",
+            "clickableArea":[
+                407, 352,
+                264, 451,
+                125, 337,
+                130, 239,
+                493, 44,
+                715, 727,
+                663, 812
+            ],
             "parts": [
                 {
                     "name": "Arolia",
