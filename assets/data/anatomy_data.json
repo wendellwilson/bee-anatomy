@@ -267,7 +267,7 @@
                     ]
                 },
                 {
-                    "name": "Medial Ocellus",
+                    "name": "Median Ocellus",
                     "nameMasks": [
                         [
                             -112, -247,
@@ -1985,7 +1985,7 @@
                     ]
                 },
                 {
-                    "name": "Medial Ocellus",
+                    "name": "Median Ocellus",
                     "nameMasks": [
                         [
                             -101, -245,
