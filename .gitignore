@@ -7,3 +7,4 @@ dist/*
 *.xcworkspacedata
 *.plist
 *.xcuserstat3e
+*.xcodeproj
