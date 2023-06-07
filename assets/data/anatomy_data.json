@@ -267,7 +267,7 @@
                     ]
                 },
                 {
-                    "name": "Medial Ocellus",
+                    "name": "Median Ocellus",
                     "nameMasks": [
                         [
                             -112, -247,
@@ -377,7 +377,7 @@
                     ]
                 },
                 {
-                    "name": "Pygidal Area",
+                    "name": "Pygidial Area",
                     "nameMasks": [
                         [
                             -218, 310,
@@ -1223,7 +1223,7 @@
                     ]
                 },
                 {
-                    "name": "Tergal Gradulia",
+                    "name": "Tergal Graduli",
                     "nameMasks": [
                         [   817, 102  ,  822, 144  ,  753, 147  ,  757, 101  ]
                     ],
@@ -1985,7 +1985,7 @@
                     ]
                 },
                 {
-                    "name": "Medial Ocellus",
+                    "name": "Median Ocellus",
                     "nameMasks": [
                         [
                             -101, -245,

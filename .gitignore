@@ -1,3 +1,10 @@
 node_modules
 dist/*
 !dist/index.html
+#XCode
+.DS_Store
+*.pbxproj
+*.xcworkspacedata
+*.plist
+*.xcuserstat3e
+*.xcodeproj
